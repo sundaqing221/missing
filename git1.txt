@@ -92,7 +92,7 @@ git
 所有配置完成后 提交修改至GitHub库中
 1 git status 查看状态 是否有新文件需要提交
 2 git add filename 提交至暂存库
-3 git commit -m 提交所有修改至本地库
+3 git commit -m ""提交所有修改至本地库
 4 git status 查看状态 查看是否提交成功
 5 git push -u origin master 提交修改至GitHub库
 —        github
@@ -106,7 +106,7 @@ git
 git init   当前库变为git本地库
 git status  查看状态
 git  add  filename1 filename2 提交至暂存库
-git  commit  -m  提交至本地库
+git  commit  -m "" 提交至本地库
 git status  查看状态
 git log   查看历史修改日志
 git reset -hard  head^/commit_id  返回之前的版本 
