@@ -1,0 +1,124 @@
+
+git init
+通过git init命令把这个目录变成Git可以管理的仓库：
+第一步，用命令git add告诉Git，把文件添加到仓库：
+$ git add readme.txt
+执行上面的命令，没有任何显示，这就对了，Unix的哲学是“没有消息就是好消息”，说明添加成功。
+第二步，用命令git commit告诉Git，把文件提交到仓库：
+$ git commit -m "wrote a readme file"
+简单解释一下git commit命令，-m后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。
+嫌麻烦不想输入-m "xxx"行不行？确实有办法可以这么干，但是强烈不建议你这么干，因为输入说明对自己对别人阅读都很重要。实在不想输入说明的童鞋请自行Google，我不告诉你这个参数。
+git commit命令执行成功后会告诉你，1 file changed：1个文件被改动（我们新添加的readme.txt文件）；2 insertions：插入了两行内容（readme.txt有两行内容）。
+现在总结一下今天学的两点内容：
+1初始化一个Git仓库，使用git init命令。
+添加文件到Git仓库，分两步：
+    2使用命令git add <file>，注意，可反复多次使用，添加多个文件；
+    3使用命令git commit -m <message>，完成。
+4 $git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+    modified:   readme.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+命令可以让我们时刻掌握仓库当前的状态，上面的命令输出告诉我们，readme.txt被修改过了，但还没有准备提交的修改。
+5$ git diff readme.txt 
+diff --git a/readme.txt b/readme.txt
+index 46d49bf..9247db6 100644
+--- a/readme.txt
++++ b/readme.txt
+@@ -1,2 +1,2 @@
+-Git is a version control system.
++Git is a distributed version control system.
+ Git is free software.
+ git diff顾名思义就是查看difference，显示的格式正是Unix通用的diff格式，可以从上面的命令输出看到，我们在第一行添加了一个distributed单词
+6$ git add readme.txt
+同样没有任何输出。在执行第二步git commit之前，我们再运行git status看看当前仓库的状态：
+7$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+    modified:   readme.txt
+	8$ git commit -m "add distributed"
+	[master e475afc] add distributed
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ 提交后，我们再用git status命令看看仓库的当前状态：
+9 git status
+ On branch master
+nothing to commit, working tree clean
+Git告诉我们当前没有需要提交的修改，而且，工作目录是干净（working tree clean）的。
+——
+因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在，git commit就是往master分支上提交更改。
+
+你可以简单理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。
+
+
+  提交更新的文件
+1  git status 查看状态
+2  git diff  filename  查看是否修改内容
+3  git  add file1name file2name  添加到库  可添加多个文件   
+   //添加至暂存区
+4  git commit -m  "信息"   一次提交所有add到库的文件  
+  //实际上就是把暂存区的所有内容提交到当前分支。
+5  git  status 查看状态  ——over！！！
+
+——
+  版本回退 
+1  git  log  显示从最近到最远的提交日志
+ Git必须知道当前版本是哪个版本，在Git中，用HEAD表示当前版本，也就是最新的提交1094adb...（注意我的提交ID和你的肯定不一样），上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。
+2  git reset --hard HEAD^  还原至版本  最新版本会被删除
+办法其实还是有的，只要上面的命令行窗口还没有被关掉，你就可以顺着往上找啊找啊，找到那个append GPL的commit id是1094adb...，于是就可以指定回到未来的某个版本：
+版本号没必要写全，前几位就可以了，Git会自动去找。当然也不能只写前一两位，因为Git可能会找到多个版本号，就无法确定是哪一个了。
+3 git reset --hard 1094a
+再小心翼翼地看看readme.txt的内容：
+果然，我胡汉三又回来了。
+
+1  git log 查看历史提交日志
+2  git reset --hard  head^/b  commit_id  commit后  3e9ac7251a8a6e439482dcbeaf4f9b79d16a96af  (HEAD -> master) head^代表上一个版本  几个^代表回退几个版本 回退后 最新版本会被删除
+
+
+——本地库同步到github库
+ 1$git remote add origin git@github.com:你自己的github账户名/learngit（库名）.git
+ 添加后，远程库的名字就是origin，这是Git默认的叫法，也可以改成别的，但是origin这个名 字一看就知道是远程库。
+ 2$ git push -u origin master
+
+git push origin master  提交本地修改
+
+
+git 
+所有配置完成后 提交修改至GitHub库中
+1 git status 查看状态 是否有新文件需要提交
+2 git add filename 提交至暂存库
+3 git commit -m 提交所有修改至本地库
+4 git status 查看状态 查看是否提交成功
+5 git push -u origin master 提交修改至GitHub库
+—        github
+—  分布式版本控制工具  免费软件
+—svn集中式版本控制工具 免费软件
+
+
+总结：
+打开git工具
+进入你要git 的库
+git init   当前库变为git本地库
+git status  查看状态
+git  add  filename1 filename2 提交至暂存库
+git  commit  -m  提交至本地库
+git status  查看状态
+git log   查看历史修改日志
+git reset -hard  head^/commit_id  返回之前的版本 
+git remote  add origin  git@git.com:git账户/库名.git  关联git库
+git push -u origin  master   提交至关联git库
+
+
+——git  clone +ssh地址   git下载
+
+
+
+
+
+
+  
